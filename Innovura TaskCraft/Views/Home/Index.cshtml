@@ -8,102 +8,107 @@
     var labels = ViewBag.Labels;
     
 }
-<h1>Task Management</h1>
-
-
+<div class="container">
     <div class="row">
-        <div class="col-md-6">
-            <h2>Tasks</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>State</th>
-                        <th>Label</th>
-                        <th>Created Date</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @if (tasks.Count > 0)
-                {
-                    @foreach (var task in tasks)
-                    {
-                        <tr>
-                            <td>@task.TaskName</td>
-                            <td>@task.State</td>
-                            @* <td>
-                                <span style="background-color: @task.Label.Color">@task.Label.LabelName</span>
-                            </td> *@
-                            <td>@task.CreatedDate.ToString("yyyy-MM-dd")</td>
-                            <td>@(task.StartedDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
-                            <td>@(task.EndDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
-                           @*  <td>
-                                <a asp-page="./EditTask" asp-route-id="@task.Id">Edit</a> |
-                                <a asp-page="./DeleteTask" asp-route-id="@task.Id">Delete</a>
-                            </td> *@
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td>No data to show</td>
-                    </tr>
-                }
-
-                </tbody>
-            </table>
-            @* <a asp-page="./CreateTask" class="btn btn-primary">Create New Task</a> *@
+        <div class="col">
+            <h1>Task Management</h1>
         </div>
-        <div class="col-md-6">
-            <h2>Labels</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Color</th>
-                        <th>Timespan</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @if (labels.Count > 0)
-                {
-                    @foreach (var label in labels)
-                    {
-                        <tr>
-                            <td>@label.LabelName</td>
-                            <td><span style="background-color: @label.Color"></span></td>
-                            <td>@label.TimeSpan.ToString("dd") days</td>
-                            <td>
-                            @*     <a asp-page="./EditLabel" asp-route-id="@label.Id">Edit</a> |
-                                <a asp-page="./DeleteLabel" asp-route-id="@label.Id">Delete</a> *@
-                            </td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td>No data to show
-                        </td>
-                    </tr>
-                }
-
-                </tbody>
-            </table>
-            @* <a asp-page="./CreateLabel" class="btn btn-primary">Create New Label</a> *@
+        <div class="col">
+            <button type="button" class="btn btn-dark"><i class="bi bi-plus-circle-dotted"></i>Create Task</button>
         </div>
     </div>
-    <div id="chartContainer"></div>
+</div>
 
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Label</th>
+                        <th scope="col">Created Date</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="taskTable">
+                    @if (tasks.Count > 0)
+                    {
+                        @foreach (var task in tasks)
+                        {
+                            <tr>
+                                <td>@task.TaskName</td>
+                                <td>@task.State</td>
+                                <td>
+                                    <span style="background-color: @(task.Label?.Color ?? "#ffffff00")">
+                                        @(task.Label?.LabelName ?? "N/A")
+                                    </span>
+                                </td>
 
-@section Scripts {
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-    <script>
-        // JavaScript code to initialize and render the chart using data from Model.ChartData
-    </script>
-}
+                                <td>@task.CreatedDate.ToString("yyyy-MM-dd")</td>
+                                <td>@(task.StartedDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
+                                <td>@(task.EndDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
+                                <td>
+                                    <button type="button" class="updateTask btn btn-success"><i class="bi bi-pencil-square"></i></button>
+                                    <button type="button" class="deleteTask btn btn-danger" data-target="#deleteModal" data-toggle="modal" data-task-name="@task.TaskName" data-task-id="@task.Id"><i class="bi bi-trash"></i></button>
+
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" style="text-align: center; font-weight: bold; color: gray;"> No data to show</td>
+                        </tr>
+                    }
+
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Task</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete the task with the title: <strong id="deleteTaskTitle"></strong>? <strong id="deleteTask" hidden></strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="confirmDelete" class="btn btn-danger">Yes, Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Modal -->
+<div class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Task</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

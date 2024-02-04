@@ -1,6 +1,8 @@
 ﻿using Business_Layer.IServices;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Innovura_TaskCraft.Controllers
@@ -23,10 +25,12 @@ namespace Innovura_TaskCraft.Controllers
         }
 
         [HttpGet("tasks")]
-        public async Task<ActionResult<IEnumerable<Task>>> GetAllTasks()
+        public async Task<IActionResult> GetAllTasks()
         {
-            var tasks = await _taskManager.GetTasksAsync();
-            return Ok(tasks);
+            if(HttpContext.Session.GetString("userId")==null)
+                return RedirectToAction("Login", "Account");
+            var tasks = await _taskManager.GetTaskByUserIdAsync(int.Parse(HttpContext.Session.GetString("userId")));
+            return Json(tasks.ToList()); ;
         }
 
         [HttpGet("{id}")]
@@ -40,6 +44,18 @@ namespace Innovura_TaskCraft.Controllers
             }
 
             return Ok(task);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Task>> DeleteTask(int id)
+        {
+            var trashed = await _taskManager.DeleteTaskAsync(id);
+            if (trashed == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(trashed);
         }
     }
 }

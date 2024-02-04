@@ -16,6 +16,7 @@ using DataAccess.Repositories;
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
 using Innovura_TaskCraft.Models;
+using System.Text.Json.Serialization;
 
 namespace Innovura_TaskCraft
 {
@@ -44,7 +45,13 @@ namespace Innovura_TaskCraft
             services.AddScoped<ILabelRepository, LabelRepository>();
             services.AddScoped<IHomeEssentials, HomeEssentials>();
 
+            services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
+            //services.AddControllers().AddJsonOptions(options =>
+            //{
+            //    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            //});
             //services.AddScoped<ILabel, Label>();
         }
 
