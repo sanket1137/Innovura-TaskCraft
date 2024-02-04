@@ -25,6 +25,10 @@ namespace DataAccess.Repositories
         {
             return await _dbContext.Tasks.FindAsync(id);
         }
+        public async Task<IList<TaskItem>> GetTaskByUserIdAsync(int id)
+        {
+            return await _dbContext.Tasks.Where(t => t.UserId == id).ToListAsync();
+        }
         public async Task<int> CreateTaskAsync(TaskItem task)
         {
             _dbContext.Tasks.Add(task);

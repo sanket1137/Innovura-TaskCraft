@@ -8,6 +8,7 @@ namespace Business_Layer.IServices
     {
         Task<IEnumerable<TaskItem>> GetTasksAsync();
         Task<TaskItem> GetTaskByIdAsync(int id);
+        Task<IList<TaskItem>> GetTaskByUserIdAsync(int id);
         Task<int> CreateTaskAsync(TaskItem task);
         Task<int> UpdateTaskAsync(TaskItem task);
         Task<int> DeleteTaskAsync(int id);

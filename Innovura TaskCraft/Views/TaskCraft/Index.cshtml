@@ -1,5 +1,88 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@page
+@model HomeEssentials
+
+
+<h1>Task Management</h1>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Tasks</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>State</th>
+                        <th>Label</th>
+                        <th>Created Date</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var task in Model.Tasks)
+                    {
+                        <tr>
+                            <td>@task.TaskName</td>
+                            <td>@task.State</td>
+                            <td>
+                                <span style="background-color: @task.Label.Color">@task.Label.LabelName</span>
+                            </td>
+                            <td>@task.CreatedDate.ToString("yyyy-MM-dd")</td>
+                            <td>@(task.StartedDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
+                            <td>@(task.EndDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
+                            <td>
+                                <a asp-page="./EditTask" asp-route-id="@task.Id">Edit</a> |
+                                <a asp-page="./DeleteTask" asp-route-id="@task.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <a asp-page="./CreateTask" class="btn btn-primary">Create New Task</a>
+        </div>
+        <div class="col-md-6">
+            <h2>Labels</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Color</th>
+                        <th>Timespan</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var label in Model.Labels)
+                    {
+                        <tr>
+                            <td>@label.LabelName</td>
+                            <td><span style="background-color: @label.Color"></span></td>
+                            <td>@label.TimeSpan.ToString("dd") days</td>
+                            <td>
+                                <a asp-page="./EditLabel" asp-route-id="@label.Id">Edit</a> |
+                                <a asp-page="./DeleteLabel" asp-route-id="@label.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <a asp-page="./CreateLabel" class="btn btn-primary">Create New Label</a>
+        </div>
+    </div>
+    <div id="chartContainer"></div>
+}
+else
+{
+    <p>Please login to access the application.</p>
+    <a asp-controller="Accounts" asp-action="Login">Login</a>
+}
+
+@section Scripts {
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script>
+        // JavaScript code to initialize and render the chart using data from Model.ChartData
+    </script>
 }

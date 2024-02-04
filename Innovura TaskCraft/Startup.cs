@@ -13,6 +13,9 @@ using Business_Layer.Services;
 using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using DataAccess.Repositories;
+using DataAccess.Entities;
+using Microsoft.AspNetCore.Identity;
+using Innovura_TaskCraft.Models;
 
 namespace Innovura_TaskCraft
 {
@@ -30,12 +33,19 @@ namespace Innovura_TaskCraft
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
             services.AddControllersWithViews();
-            //
-            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddSession();
+            
             services.AddScoped<ITaskManager, TaskManager>();
-            //services.AddScoped<IUser, User>();
-            //services.AddScoped<ILabel, Label>();
+            services.AddScoped<IUserManager, UserManager>();
+            services.AddScoped<ILabelManager, LabelManager>();
 
+            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ILabelRepository, LabelRepository>();
+            services.AddScoped<IHomeEssentials, HomeEssentials>();
+
+
+            //services.AddScoped<ILabel, Label>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,7 +66,11 @@ namespace Innovura_TaskCraft
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

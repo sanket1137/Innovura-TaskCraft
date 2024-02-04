@@ -23,5 +23,26 @@ namespace DataAccess.Data
         {
             base.OnConfiguring(optionsBuilder);
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<TaskItem>()
+                .HasOne(t => t.Label)
+                .WithMany(l => l.Tasks)
+                .HasForeignKey(t => t.LabelId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<TaskItem>()
+                .HasOne(t => t.User)
+                .WithMany(u => u.Tasks)
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Other configurations...
+
+            // Ensure that you include the necessary configurations for other entities and relationships in your model.
+        }
     }
 }

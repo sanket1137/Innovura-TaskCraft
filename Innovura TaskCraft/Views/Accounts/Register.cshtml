@@ -1,0 +1,26 @@
+﻿@page
+@model DataAccess.Entities.User
+
+@if (ViewData != null && ViewData.ModelState.IsValid)
+{
+    <p class="text-danger">@ViewData.ModelState["Error"].Errors.FirstOrDefault()?.ErrorMessage</p>
+}
+<h2>Register</h2>
+
+<form method="post">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="Username" />
+    </div>
+    <div>
+        <label for="username">Email ID:</label>
+        <input type="email" id="emailId" name="UserEmailId" />
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="Password" />
+    </div>
+    <button type="submit">Register</button>
+    <a asp-controller="Accounts" asp-action="Login">Existing User</a>
+
+</form>

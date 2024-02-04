@@ -17,6 +17,12 @@ namespace Innovura_TaskCraft.Controllers
         }
 
         [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet("tasks")]
         public async Task<ActionResult<IEnumerable<Task>>> GetAllTasks()
         {
             var tasks = await _taskManager.GetTasksAsync();

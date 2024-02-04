@@ -13,8 +13,8 @@ namespace DataAccess.Entities
         public string UserEmailId { get; set; }
         public string Password { get; set; }
 
-        // Navigation property for tasks associated with this user
         public ICollection<TaskItem> Tasks { get; set; }
+        public ICollection<Label> Labels { get; set; }
     }
 
 }

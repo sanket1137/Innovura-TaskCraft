@@ -27,7 +27,10 @@ namespace Business_Layer.Services
         {
             return await _taskService.GetTaskByIdAsync(id);
         }
-
+        public async Task<IList<TaskItem>> GetTaskByUserIdAsync(int id)
+        {
+            return await _taskService.GetTaskByUserIdAsync(id);
+        }
         public async Task<int> CreateTaskAsync(TaskItem task)
         {
             return await _taskService.CreateTaskAsync(task);

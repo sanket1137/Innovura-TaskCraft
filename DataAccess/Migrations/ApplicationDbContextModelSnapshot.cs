@@ -17,7 +17,7 @@ namespace DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0")
+                .HasAnnotation("ProductVersion", "7.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -39,7 +39,12 @@ namespace DataAccess.Migrations
                     b.Property<TimeSpan>("TimeSpan")
                         .HasColumnType("time");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Label");
                 });
@@ -104,6 +109,17 @@ namespace DataAccess.Migrations
                     b.ToTable("User");
                 });
 
+            modelBuilder.Entity("DataAccess.Entities.Label", b =>
+                {
+                    b.HasOne("DataAccess.Entities.User", "User")
+                        .WithMany("Labels")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("DataAccess.Entities.TaskItem", b =>
                 {
                     b.HasOne("DataAccess.Entities.Label", "Label")
@@ -115,7 +131,7 @@ namespace DataAccess.Migrations
                     b.HasOne("DataAccess.Entities.User", "User")
                         .WithMany("Tasks")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Label");
@@ -130,6 +146,8 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Entities.User", b =>
                 {
+                    b.Navigation("Labels");
+
                     b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618

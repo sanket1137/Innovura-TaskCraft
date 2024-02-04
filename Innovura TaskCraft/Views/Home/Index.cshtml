@@ -1,8 +1,109 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@page
+@model HomeEssentials
+@{
+    ViewBag.Title = "Index";
 }
+@{
+    var tasks = ViewBag.Tasks;
+    var labels = ViewBag.Labels;
+    
+}
+<h1>Task Management</h1>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Tasks</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>State</th>
+                        <th>Label</th>
+                        <th>Created Date</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @if (tasks.Count > 0)
+                {
+                    @foreach (var task in tasks)
+                    {
+                        <tr>
+                            <td>@task.TaskName</td>
+                            <td>@task.State</td>
+                            @* <td>
+                                <span style="background-color: @task.Label.Color">@task.Label.LabelName</span>
+                            </td> *@
+                            <td>@task.CreatedDate.ToString("yyyy-MM-dd")</td>
+                            <td>@(task.StartedDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
+                            <td>@(task.EndDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
+                           @*  <td>
+                                <a asp-page="./EditTask" asp-route-id="@task.Id">Edit</a> |
+                                <a asp-page="./DeleteTask" asp-route-id="@task.Id">Delete</a>
+                            </td> *@
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td>No data to show</td>
+                    </tr>
+                }
+
+                </tbody>
+            </table>
+            @* <a asp-page="./CreateTask" class="btn btn-primary">Create New Task</a> *@
+        </div>
+        <div class="col-md-6">
+            <h2>Labels</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Color</th>
+                        <th>Timespan</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @if (labels.Count > 0)
+                {
+                    @foreach (var label in labels)
+                    {
+                        <tr>
+                            <td>@label.LabelName</td>
+                            <td><span style="background-color: @label.Color"></span></td>
+                            <td>@label.TimeSpan.ToString("dd") days</td>
+                            <td>
+                            @*     <a asp-page="./EditLabel" asp-route-id="@label.Id">Edit</a> |
+                                <a asp-page="./DeleteLabel" asp-route-id="@label.Id">Delete</a> *@
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td>No data to show
+                        </td>
+                    </tr>
+                }
+
+                </tbody>
+            </table>
+            @* <a asp-page="./CreateLabel" class="btn btn-primary">Create New Label</a> *@
+        </div>
+    </div>
+    <div id="chartContainer"></div>
+
+
+@section Scripts {
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script>
+        // JavaScript code to initialize and render the chart using data from Model.ChartData
+    </script>
+}
