@@ -55,7 +55,7 @@ namespace Innovura_TaskCraft.Controllers
                 {
                     var createdUser=_userManager.AddUserAsync(user);
                     HttpContext.Session.SetString("userId", createdUser.Id.ToString());
-                    return RedirectToAction("Index", "TaskCraft");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {

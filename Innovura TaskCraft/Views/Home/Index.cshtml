@@ -6,11 +6,11 @@
 @{
     var tasks = ViewBag.Tasks;
     var labels = ViewBag.Labels;
-    
+
 }
 
-<div class="container">
-    <div class="row">
+<div class="container" style="padding: 0px 0px 0px 0px">
+    <div class="row" style="align-items: center;">
         <div class="col">
             <h1>Task Management</h1>
         </div>
@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container" style="padding: 10px 0px 0px 0px">
     <div class="row">
         <div class="col-12">
             <table class="table table-bordered">
@@ -67,7 +67,7 @@
                         </tr>
                     }
 
-                    
+
                 </tbody>
             </table>
         </div>
@@ -120,42 +120,42 @@
                             </select>
                         </div>
                     </div>
-                    @* 
-                        <div class="form-group">
-                            <label for="createdDate">Created Date:</label>
-                            <input type="date" class="form-control" id="createdDate" />
-                        </div> *@
+                    @*
+                    <div class="form-group">
+                    <label for="createdDate">Created Date:</label>
+                    <input type="date" class="form-control" id="createdDate" />
+                    </div> *@
 
-                        <div class="form-group">
-                            <label for="startedDate">Start Date:</label>
-                            <input type="date" class="form-control" id="startedDate" />
-                        </div>
-                       
-                        <div class="form-group">
-                            <label for="endDate">End Date:</label>
-                            <input type="date" class="form-control" id="endDate" />
-                        </div>
-                        
-                        <div class="form-group">
-                            <input list="myLabels" name="Labels" id="Labels">
-                            <datalist id="myLabels">
-                                    <option value="N/A"></option>
-                                </datalist>
-                        </div>
-                       
-                        <div class="form-row" id="newLabel" style="display:none">
-                            <div class="form-group col-md-6">
-                                <label for="timeHours">Hours:</label>
-                                <input type="number" id="timeHours" class="form-control" min="0" max="23" step="1" required>
+                    <div class="form-group">
+                        <label for="startedDate">Start Date:</label>
+                        <input type="date" class="form-control" id="startedDate" />
+                    </div>
 
-                            </div>
+                    <div class="form-group">
+                        <label for="endDate">End Date:</label>
+                        <input type="date" class="form-control" id="endDate" />
+                    </div>
 
-                            <div class="form-group col-md-6">
-                                 <label for="exampleColorInput" class="form-label">Label Color</label>
-                                <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Label color">
-                            </div>
+                    <div class="form-group">
+                        <input list="myLabels" name="Labels" id="Labels">
+                        <datalist id="myLabels">
+                            <option value="N/A"></option>
+                        </datalist>
+                    </div>
+
+                    <div class="form-row" id="newLabel" style="display:none">
+                        <div class="form-group col-md-6">
+                            <label for="timeHours">Hours:</label>
+                            <input type="number" id="timeHours" class="form-control" min="0" max="23" step="1" required>
+
                         </div>
-                    
+
+                        <div class="form-group col-md-6">
+                            <label for="exampleColorInput" class="form-label">Label Color</label>
+                            <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Label color">
+                        </div>
+                    </div>
+
                 </form>
             </div>
             <div class="modal-footer">
@@ -193,7 +193,7 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <div class="form-group" hidden>
                         <label for="updatecreatedDate">Created Date:</label>
                         <input type="date" class="form-control" id="updatecreatedDate" disabled />
