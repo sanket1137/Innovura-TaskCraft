@@ -13,10 +13,8 @@ namespace DataAccess.Entities
         public string Color { get; set; }
         public TimeSpan TimeSpan { get; set; }
 
-        // Navigation property for tasks associated with this label
         public ICollection<TaskItem> Tasks { get; set; }
 
-        // Foreign key for the associated user who created the label
         public int UserId { get; set; }
         public User User { get; set; }
     }

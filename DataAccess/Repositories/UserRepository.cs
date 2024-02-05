@@ -18,7 +18,7 @@ namespace DataAccess.Repositories
             _dbContext = DbContext;
         }
 
-        public async Task<User> GetUserByIdAsync(string userId)
+        public async Task<User> GetUserByIdAsync(int userId)
         {
             return await _dbContext.User.FindAsync(userId);
         }

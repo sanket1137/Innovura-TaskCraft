@@ -10,7 +10,7 @@ namespace DataAccess.Repositories
 {
     public interface IUserRepository
     {
-        Task<User> GetUserByIdAsync(string userId);
+        Task<User> GetUserByIdAsync(int userId);
         Task<User> GetUserByEmailAsync(string email);
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task AddUserAsync(User user);

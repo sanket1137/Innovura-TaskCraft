@@ -8,13 +8,14 @@
     var labels = ViewBag.Labels;
     
 }
+
 <div class="container">
     <div class="row">
         <div class="col">
             <h1>Task Management</h1>
         </div>
         <div class="col">
-            <button type="button" class="btn btn-dark"><i class="bi bi-plus-circle-dotted"></i>Create Task</button>
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createTask"><i class="bi bi-plus-circle-dotted"></i> Create Task</button>
         </div>
     </div>
 </div>
@@ -52,7 +53,7 @@
                                 <td>@(task.StartedDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
                                 <td>@(task.EndDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
                                 <td>
-                                    <button type="button" class="updateTask btn btn-success"><i class="bi bi-pencil-square"></i></button>
+                                    <button type="button" class="updateTask btn btn-success" data-bs-toggle="modal" data-bs-target="#updateTask" data-task-name="@task.TaskName" data-task-id="@task.Id" onclick="updateTask(@task.Id)"><i class="bi bi-pencil-square"></i></button>
                                     <button type="button" class="deleteTask btn btn-danger" data-target="#deleteModal" data-toggle="modal" data-task-name="@task.TaskName" data-task-id="@task.Id"><i class="bi bi-trash"></i></button>
 
                                 </td>
@@ -95,7 +96,7 @@
 </div>
 
 <!-- Create Modal -->
-<div class="modal" tabindex="-1">
+<div class="modal" tabindex="-1" id="createTask">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -103,11 +104,124 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Modal body text goes here.</p>
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="taskName">Task Name:</label>
+                            <input type="text" class="form-control" id="taskName" placeholder="Enter task name" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="state">State:</label>
+                            <select class="form-control" id="state" disabled>
+                                <option value="New" selected>New</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    @* 
+                        <div class="form-group">
+                            <label for="createdDate">Created Date:</label>
+                            <input type="date" class="form-control" id="createdDate" />
+                        </div> *@
+
+                        <div class="form-group">
+                            <label for="startedDate">Start Date:</label>
+                            <input type="date" class="form-control" id="startedDate" />
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="endDate">End Date:</label>
+                            <input type="date" class="form-control" id="endDate" />
+                        </div>
+                        
+                        <div class="form-group">
+                            <input list="myLabels" name="Labels" id="Labels">
+                            <datalist id="myLabels">
+                                    <option value="N/A"></option>
+                                </datalist>
+                        </div>
+                       
+                        <div class="form-row" id="newLabel" style="display:none">
+                            <div class="form-group col-md-6">
+                                <label for="timeHours">Hours:</label>
+                                <input type="number" id="timeHours" class="form-control" min="0" max="23" step="1" required>
+
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                 <label for="exampleColorInput" class="form-label">Label Color</label>
+                                <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Label color">
+                            </div>
+                        </div>
+                    
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" id="createTaskButton">Create Task</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Update Modal -->
+<div class="modal" tabindex="-1" id="updateTask">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Task</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="updatetaskName">Task Name:</label>
+                            <input type="text" class="form-control" id="updatetaskName" placeholder="Enter task name" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="updatestate">State:</label>
+                            <select class="form-control" id="updatestate">
+                                <option value="New" selected>New</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" hidden>
+                        <label for="updatecreatedDate">Created Date:</label>
+                        <input type="date" class="form-control" id="updatecreatedDate" disabled />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="updatestartedDate">Start Date:</label>
+                        <input type="date" class="form-control" id="updatestartedDate" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="updateendDate">End Date:</label>
+                        <input type="date" class="form-control" id="updateendDate" />
+                    </div>
+
+                    <div class="form-group">
+                        <input list="myLabels" name="Labels" id="updateLabels">
+                        <datalist id="updatemyLabels">
+                            <option value="N/A"></option>
+                        </datalist>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-task-name="" data-task-id="" id="UpdateTaskButton">Update Task</button>
             </div>
         </div>
     </div>

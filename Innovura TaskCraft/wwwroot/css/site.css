@@ -5,6 +5,7 @@ a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
+  
 }
 
 /* Provide sufficient contrast against white background */
@@ -22,6 +23,10 @@ a {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
+}
+
+.navbar {
+    height: 60px !important;
 }
 
 /* Sticky footer styles

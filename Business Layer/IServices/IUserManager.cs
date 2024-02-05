@@ -9,7 +9,7 @@ namespace Business_Layer.IServices
 {
     public interface IUserManager
     {
-        Task<User> GetUserByIdAsync(string userId);
+        Task<User> GetUserByIdAsync(int userId);
         Task<User> GetUserByEmailAsync(string email);
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task AddUserAsync(User user);

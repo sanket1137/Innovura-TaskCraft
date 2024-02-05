@@ -18,7 +18,7 @@ namespace Business_Layer.Services
             _userRepository = userRepository;
         }
 
-        public async Task<User> GetUserByIdAsync(string userId)
+        public async Task<User> GetUserByIdAsync(int userId)
         {
             return await _userRepository.GetUserByIdAsync(userId);
         }

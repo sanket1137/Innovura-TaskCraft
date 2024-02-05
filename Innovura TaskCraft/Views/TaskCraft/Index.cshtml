@@ -34,7 +34,7 @@
                             <td>@(task.StartedDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
                             <td>@(task.EndDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
                             <td>
-                                <a asp-page="./EditTask" asp-route-id="@task.Id">Edit</a> |
+                                <a asp-page="./EditTask" asp-route-id="@task.Id" onclick="updateTask(@task.Id)">Edit</a> |
                                 <a asp-page="./DeleteTask" asp-route-id="@task.Id">Delete</a>
                             </td>
                         </tr>
