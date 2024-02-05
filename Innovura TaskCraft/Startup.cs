@@ -79,6 +79,7 @@ namespace Innovura_TaskCraft
 
             app.UseSession();
 
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

@@ -1,5 +1,5 @@
 ﻿@page
-@model HomeEssentials
+
 @{
     ViewBag.Title = "Index";
 }
@@ -52,9 +52,9 @@
                                 <td style="display: inline-block;width: 100%;">
                                     <div class="circle" style=" display:inline-block; background-color: @(task.Label?.Color ?? "#ffffff00")"></div>
                                     <span style="display:inline-block">
-                                        @(task.Label?.LabelName ?? "N/A") 
+                                        @(task.Label?.LabelName ?? "N/A")
                                     </span>
-                                    
+
                                 </td>
 
                                 <td>@task.CreatedDate.ToString("yyyy-MM-dd")</td>

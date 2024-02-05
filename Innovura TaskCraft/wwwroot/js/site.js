@@ -3,6 +3,9 @@ var taskUpdated = {};
 
 $(document).ready(function () {
 
+    
+
+
     //on page load get labels
     $.get('/api/tasks/labels', function (labels) {
         //var labelDropdown = $('#myLabels');
@@ -56,6 +59,9 @@ $(document).ready(function () {
                 error: function (xhr, textStatus, errorThrown) {
                     // Handle error
                     console.error('Failed to create task.', textStatus, errorThrown);
+                },
+                complete: function () {
+                    updateTaskModelClean();
                 }
             });
         } 
@@ -103,7 +109,7 @@ $(document).ready(function () {
         } else {
             createdLabelId = $('#myLabels option[value="' + input + '"]').attr('class');
         }
-
+        $('#newLabel').hide();
         var taskData = {
             taskName: $('#taskName').val(),
             state: $('#state').val(),
@@ -127,6 +133,9 @@ $(document).ready(function () {
             error: function (xhr, textStatus, errorThrown) {
                 // Handle error
                 console.error('Failed to create task.', textStatus, errorThrown);
+            },
+            complete: function () {
+                createTaskModelClean()
             }
         });
     });
@@ -173,6 +182,26 @@ function formatDate(date) {
         return formattedDate;
     }
     return '';
+}
+
+
+
+function createTaskModelClean() {
+    $("#taskName").val("");
+    $("#startedDate").val("");
+    $("#endDate").val("");
+    $("#Labels").val("");
+    $("#timeHours").val("");
+    $("#exampleColorInput").val("#563d7c");
+}
+
+function updateTaskModelClean() {
+    $("#updatetaskName").val("");
+    $("#updatestate").val("New");
+    $("#updatecreatedDate").val("");
+    $("#updatestartedDate").val("");
+    $("#updateendDate").val("");
+    $("#updateLabels").val("");
 }
     function updateTask(id) {
         $.ajax({
@@ -245,7 +274,11 @@ getLabels().then(function () {
                         var row = `<tr>
                              <td>${task.taskName}</td>
                              <td>${task.state}</td>
-                             <td> <span style="background-color: ${task.label?.color ?? '#ffffff00'}">${task.label?.labelName ?? 'N/A'}</span></td>
+                             <td> <div class="circle" style=" display:inline-block; background-color: ${task.label?.color ?? "#ffffff00"}"></div>
+                                    <span style="display:inline-block">
+                                        ${task.label?.labelName ?? "N/A"}
+                                    </span>
+                             </td>
                              <td>${task.createdDate}</td>
                              <td>${task.startedDate ?? "N/A"}</td>
                              <td>${task.endDate ?? "N/A"}</td>
