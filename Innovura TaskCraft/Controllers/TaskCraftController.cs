@@ -51,6 +51,10 @@ namespace Innovura_TaskCraft.Controllers
         [HttpPost("createlabel")]
         public async Task<IActionResult> createLabel(Label label)
         {
+            if (HttpContext.Session.GetString("userId") == null)
+                return RedirectToAction("Login", "Account");
+            label.UserId = int.Parse(HttpContext.Session.GetString("userId"));
+            label.TimeSpan = DateTime.Now.TimeOfDay;
             var createdLabel = await _labelManager.CreateLabelAsync(label);
             
             return Ok( createdLabel);
@@ -77,7 +81,7 @@ namespace Innovura_TaskCraft.Controllers
             task.CreatedDate = DateTime.Now;
             var isTaskCreated = await _taskManager.CreateTaskAsync(task);
 
-            if (isTaskCreated == 0)
+            if (isTaskCreated == 0) 
             {
                 return NotFound();
             }

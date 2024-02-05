@@ -91,6 +91,7 @@ $(document).ready(function () {
             $.ajax({
                 url: '/api/tasks/createlabel',
                 method: 'POST',
+                async: false,
                 contentType: 'application/json',
                 data: JSON.stringify(label),
                 success: function (createdLabel) {

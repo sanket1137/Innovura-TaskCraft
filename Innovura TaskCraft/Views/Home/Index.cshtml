@@ -8,7 +8,13 @@
     var labels = ViewBag.Labels;
 
 }
-
+<style>
+    .circle {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+</style>
 <div class="container" style="padding: 0px 0px 0px 0px">
     <div class="row" style="align-items: center;">
         <div class="col">
@@ -43,10 +49,12 @@
                             <tr>
                                 <td>@task.TaskName</td>
                                 <td>@task.State</td>
-                                <td>
-                                    <span style="background-color: @(task.Label?.Color ?? "#ffffff00")">
-                                        @(task.Label?.LabelName ?? "N/A")
+                                <td style="display: inline-block;width: 100%;">
+                                    <div class="circle" style=" display:inline-block; background-color: @(task.Label?.Color ?? "#ffffff00")"></div>
+                                    <span style="display:inline-block">
+                                        @(task.Label?.LabelName ?? "N/A") 
                                     </span>
+                                    
                                 </td>
 
                                 <td>@task.CreatedDate.ToString("yyyy-MM-dd")</td>
@@ -210,6 +218,7 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="Labels">Label:</label>
                         <input list="myLabels" name="Labels" id="updateLabels">
                         <datalist id="updatemyLabels">
                             <option value="N/A"></option>

@@ -109,6 +109,13 @@ body {
     background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
 }
 
+.circle {
+    width: 10px;
+    height: 10px;
+    
+    border-radius: 50%;
+}
+
 @media (min-width: 768px) {
     .gradient-form {
         height: 100vh !important;
