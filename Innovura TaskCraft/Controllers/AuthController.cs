@@ -145,8 +145,10 @@ namespace Innovura_TaskCraft.Controllers
             {
                 return Unauthorized();
             }
-            var dbToken = _tokenManager.GetTokenByUserIdAsync(int.Parse(principle.Identity.Name), token.RefreshToken);
-            if (dbToken != null)
+            var _user = await _userManager.GetUserByEmailAsync(principle.Identity.Name);
+
+            var dbToken = _tokenManager.GetTokenByUserIdAsync(_user.Id, token.RefreshToken);
+            if (dbToken == null)
             {
                 return Unauthorized();
             }
