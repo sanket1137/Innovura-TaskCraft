@@ -13,7 +13,7 @@ namespace DataAccess.Repositories
         Task<User> GetUserByIdAsync(int userId);
         Task<User> GetUserByEmailAsync(string email);
         Task<IEnumerable<User>> GetAllUsersAsync();
-        Task AddUserAsync(User user);
+        Task<int> AddUserAsync(User user);
         Task UpdateUserAsync(User user);
         Task DeleteUserAsync(string userId);
         Task<bool> GetUserByEmailAndPasswordAsync(string emailId, string password);

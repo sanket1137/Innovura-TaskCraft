@@ -33,10 +33,10 @@ namespace DataAccess.Repositories
             return await _dbContext.User.ToListAsync();
         }
        
-        public async Task AddUserAsync(User user)
+        public async Task<int> AddUserAsync(User user)
         {
             _dbContext.User.Add(user);
-            await _dbContext.SaveChangesAsync();
+            return await _dbContext.SaveChangesAsync();
         }
 
         public async Task UpdateUserAsync(User user)
@@ -59,7 +59,11 @@ namespace DataAccess.Repositories
         {
             var user= await _dbContext.User.Where(u => u.UserEmailId == emailId && u.Password == password)
             .FirstOrDefaultAsync();
-            return true;
+            if (user!= null)
+            {
+                return true;
+            }
+            return false;
         }
 
     }

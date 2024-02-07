@@ -17,7 +17,7 @@ namespace DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.15")
+                .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -47,6 +47,28 @@ namespace DataAccess.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Label");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.RefreshToken", b =>
+                {
+                    b.Property<string>("TokenId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Refresh_Token")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TokenId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Token");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.TaskItem", b =>
@@ -120,18 +142,29 @@ namespace DataAccess.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("DataAccess.Entities.RefreshToken", b =>
+                {
+                    b.HasOne("DataAccess.Entities.User", "User")
+                        .WithOne("RefreshToken")
+                        .HasForeignKey("DataAccess.Entities.RefreshToken", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("DataAccess.Entities.TaskItem", b =>
                 {
                     b.HasOne("DataAccess.Entities.Label", "Label")
                         .WithMany("Tasks")
                         .HasForeignKey("LabelId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DataAccess.Entities.User", "User")
                         .WithMany("Tasks")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Label");
@@ -147,6 +180,8 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.Entities.User", b =>
                 {
                     b.Navigation("Labels");
+
+                    b.Navigation("RefreshToken");
 
                     b.Navigation("Tasks");
                 });

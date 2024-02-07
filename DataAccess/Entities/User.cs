@@ -15,6 +15,7 @@ namespace DataAccess.Entities
 
         public ICollection<TaskItem> Tasks { get; set; }
         public ICollection<Label> Labels { get; set; }
+        public RefreshToken RefreshToken { get; set; }
     }
 
 }

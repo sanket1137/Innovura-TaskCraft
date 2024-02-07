@@ -1,6 +1,7 @@
 ﻿using Business_Layer.IServices;
 using Business_Layer.Services;
 using DataAccess.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Innovura_TaskCraft.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/tasks")]
     public class TaskCraftController : Controller
@@ -25,17 +27,9 @@ namespace Innovura_TaskCraft.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet]
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpGet("tasks")]
         public async Task<IActionResult> GetTasks()
         {
-            if(HttpContext.Session.GetString("userId")==null)
-                return RedirectToAction("Login", "Account");
             var tasks = await _taskManager.GetTaskByUserIdAsync(int.Parse(HttpContext.Session.GetString("userId")));
             return Json(tasks.ToList()); ;
         }
@@ -43,8 +37,6 @@ namespace Innovura_TaskCraft.Controllers
         [HttpGet("labels")]
         public async Task<IActionResult> GetLabels()
         {
-            if (HttpContext.Session.GetString("userId") == null)
-                return RedirectToAction("Login", "Account");
             var labels = await _labelManager.GetLabelByUserIdAsync(int.Parse(HttpContext.Session.GetString("userId")));
             return Json(labels.ToList()); ;
         }
