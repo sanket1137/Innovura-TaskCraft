@@ -97,6 +97,8 @@ namespace Innovura_TaskCraft.Controllers
                 var isUserCredValid = await _userManager.GetUserByEmailAndPasswordAsync(user.UserEmailId, user.Password);
                 if (isUserCredValid)
                 {
+                    var userDetails = await _userManager.GetUserByEmailAsync(user.UserEmailId);
+
                     //var jwtSecurityToken = await _userManager.GenerateJwtToken(user);
                     var tokenhandler = new JwtSecurityTokenHandler();
                     var tokenkey = Encoding.UTF8.GetBytes(_jwtSettings.SecretKey);
@@ -105,7 +107,8 @@ namespace Innovura_TaskCraft.Controllers
                         Subject = new ClaimsIdentity(
                         new Claim[]
                             {
-                                new Claim(ClaimTypes.Name, user.UserEmailId),
+                                new Claim(ClaimTypes.Email, user.UserEmailId),
+                                new Claim(ClaimTypes.NameIdentifier, userDetails.Id.ToString())
                             }
                         ),
                         Expires = DateTime.Now.AddMinutes(15),
@@ -170,9 +173,10 @@ namespace Innovura_TaskCraft.Controllers
             User tempUser = await _userManager.GetUserByEmailAsync(user.UserEmailId);
             if (tempUser == null)
             {
-                var createdUser = _userManager.AddUserAsync(user);
-                if (createdUser != null)
+                var createdUserCount = _userManager.AddUserAsync(user);
+                if (createdUserCount != null)
                 {
+                    var userDetails=_userManager.GetUserByEmailAsync(user.UserEmailId);
                     //var token = _userManager.GenerateJwtToken(user);
                     var tokenhandler = new JwtSecurityTokenHandler();
                     var tokenkey = Encoding.UTF8.GetBytes(_jwtSettings.SecretKey);
@@ -181,7 +185,8 @@ namespace Innovura_TaskCraft.Controllers
                         Subject = new ClaimsIdentity(
                         new Claim[]
                             {
-                                new Claim(ClaimTypes.Name, user.UserEmailId),
+                                new Claim(ClaimTypes.Email, userDetails.Result.UserEmailId),
+                                new Claim(ClaimTypes.NameIdentifier, userDetails.Result.Id.ToString())
                             }
                         ),
                         Expires = DateTime.Now.AddMinutes(15),

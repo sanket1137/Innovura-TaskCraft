@@ -7,13 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Innovura_TaskCraft.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/tasks")]
+    [Route("api/[controller]")]
     public class TaskCraftController : Controller
     {
         private readonly ITaskManager _taskManager;
@@ -30,7 +31,11 @@ namespace Innovura_TaskCraft.Controllers
         [HttpGet("tasks")]
         public async Task<IActionResult> GetTasks()
         {
-            var tasks = await _taskManager.GetTaskByUserIdAsync(int.Parse(HttpContext.Session.GetString("userId")));
+            var userID = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var emailID = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
+            var UserID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var tasks = await _taskManager.GetTaskByUserIdAsync(int.Parse(UserID));
             return Json(tasks.ToList()); ;
         }
         
