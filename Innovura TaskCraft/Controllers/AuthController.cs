@@ -115,7 +115,7 @@ namespace Innovura_TaskCraft.Controllers
                     string finalToken = tokenhandler.WriteToken(token);
                     _token.JWTToken = finalToken;
                     _token.RefreshToken =await GenerateToken(user.UserEmailId);
-                    return Ok(finalToken);
+                    return Ok(_token);
                 }
             }
             catch(Exception ex)

@@ -118,7 +118,10 @@ namespace Innovura_TaskCraft
 
             app.UseAuthorization();
 
-            
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); 
+            });
             
             app.UseEndpoints(endpoints =>
             {
