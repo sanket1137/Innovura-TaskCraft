@@ -10,7 +10,7 @@
     <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Business Layer\Business Layer.csproj" />
+    <ProjectReference Include="..\Business Layer\BusinessLayer.csproj" />
 
   </ItemGroup>
 

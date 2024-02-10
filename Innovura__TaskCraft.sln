@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innovura TaskCraft", "Innovura TaskCraft\Innovura TaskCraft.csproj", "{B993A85B-E3FC-4F41-940D-D563B854793E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Innovura__TaskCraft", "Innovura TaskCraft\Innovura__TaskCraft.csproj", "{B993A85B-E3FC-4F41-940D-D563B854793E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business Layer", "Business Layer\Business Layer.csproj", "{1C1B638C-57BA-450E-A16D-7862699C3C3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLayer", "Business Layer\BusinessLayer.csproj", "{1C1B638C-57BA-450E-A16D-7862699C3C3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{DC2B27CA-A712-4952-9BB7-EF38D3BB04A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{DC2B27CA-A712-4952-9BB7-EF38D3BB04A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
