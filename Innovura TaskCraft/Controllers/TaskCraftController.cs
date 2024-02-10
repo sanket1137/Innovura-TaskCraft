@@ -42,24 +42,28 @@ namespace Innovura_TaskCraft.Controllers
         [HttpGet("labels")]
         public async Task<IActionResult> GetLabels()
         {
-            var labels = await _labelManager.GetLabelByUserIdAsync(int.Parse(HttpContext.Session.GetString("userId")));
+            var userID = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var emailID = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            var labels = await _labelManager.GetLabelByUserIdAsync(int.Parse(userID));
             return Json(labels.ToList()); ;
         }
         [HttpPost("createlabel")]
         public async Task<IActionResult> createLabel(Label label)
         {
-            if (HttpContext.Session.GetString("userId") == null)
-                return RedirectToAction("Login", "Account");
-            label.UserId = int.Parse(HttpContext.Session.GetString("userId"));
+            var userID = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var emailID = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            label.UserId = int.Parse(userID);
             label.TimeSpan = DateTime.Now.TimeOfDay;
             var createdLabel = await _labelManager.CreateLabelAsync(label);
             
             return Ok( createdLabel);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("getTask/{id}")]
         public async Task<ActionResult<Task>> GetTaskById(int id)
         {
+            var userID = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var emailID = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
             var task = await _taskManager.GetTaskByIdAsync(id);
 
             if (task == null)
@@ -72,9 +76,9 @@ namespace Innovura_TaskCraft.Controllers
         [HttpPost("taskcreate")]
         public async Task<IActionResult> createTask(TaskItem task)
         {
-            if (HttpContext.Session.GetString("userId") == null)
-                return RedirectToAction("Login", "Account");
-            task.User = await _userManager.GetUserByIdAsync(int.Parse(HttpContext.Session.GetString("userId")));
+            var userID = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var emailID = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            task.User = await _userManager.GetUserByIdAsync(int.Parse(userID));
             task.CreatedDate = DateTime.Now;
             var isTaskCreated = await _taskManager.CreateTaskAsync(task);
 
@@ -88,9 +92,9 @@ namespace Innovura_TaskCraft.Controllers
         [HttpPatch("taskupdate")]
         public async Task<ActionResult<TaskItem>> TaskUpdate(TaskItem task)
         {
-            if (HttpContext.Session.GetString("userId") == null)
-                return RedirectToAction("Login", "Account");
-            task.UserId = int.Parse(HttpContext.Session.GetString("userId"));
+            var userID = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var emailID = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            task.UserId = int.Parse(userID);
             var taskupdated = await _taskManager.UpdateTaskAsync(task);
             if (taskupdated == 0)
             {
@@ -99,7 +103,7 @@ namespace Innovura_TaskCraft.Controllers
             return Ok(taskupdated);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("taskdelete/{id}")]
         public async Task<ActionResult<Task>> DeleteTask(int id)
         {
             var trashed = await _taskManager.DeleteTaskAsync(id);

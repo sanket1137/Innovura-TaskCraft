@@ -117,12 +117,12 @@ namespace Innovura_TaskCraft.Controllers
                     var token = tokenhandler.CreateToken(tokenDescriptor);
                     string finalToken = tokenhandler.WriteToken(token);
                     _token.JWTToken = finalToken;
-                    _token.RefreshToken =await GenerateToken(user.UserEmailId);
+                    _token.RefreshToken = await GenerateToken(user.UserEmailId);
                     return Ok(_token);
                 }
             }
             catch(Exception ex)
-            {
+            {   
                 Console.WriteLine(ex);
                 return BadRequest
                 ("An error occurred in generating the token");
@@ -131,9 +131,9 @@ namespace Innovura_TaskCraft.Controllers
 
         }
         
-        [Route("Refresh")]
+        [Route("refreshToken")]
         [HttpPost]
-        public async Task<IActionResult> Refresh([FromBody] TokenResponse token)
+        public async Task<IActionResult> Refresh(TokenResponse token)
         {
             var tokenhandler = new JwtSecurityTokenHandler();
             SecurityToken securityToken;
@@ -195,7 +195,7 @@ namespace Innovura_TaskCraft.Controllers
                     var token = tokenhandler.CreateToken(tokenDescriptor);
                     string finalToken = tokenhandler.WriteToken(token);
                     return Ok(finalToken);
-
+                        
                 }
                 else
                 {

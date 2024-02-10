@@ -45,6 +45,7 @@ namespace Innovura_TaskCraft
             var jwtSettings = services.BuildServiceProvider().GetService<Jwt>();
             var userManager = services.BuildServiceProvider().GetService<IUserManager>();
             services.AddSingleton<IRefreshTokenGenerator>(provider => new RefreshTokenGenerator(tokenManager, userManager, dbContext, jwtSettings));
+            services.ConfigureCORS();
             
             services.AddScoped<ITaskManager, TaskManager>();
             services.AddScoped<IUserManager, UserManager>();
@@ -118,11 +119,7 @@ namespace Innovura_TaskCraft
 
             app.UseAuthorization();
 
-            app.UseCors(builder =>
-            {
-                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); 
-            });
-            
+            app.UseCors("CorsPolicy");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
